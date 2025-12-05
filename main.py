@@ -4,14 +4,44 @@ from ui.main_window import MainWindow
 
 def main():
     app = QApplication(sys.argv)
-    
-    # Stil (Opsiyonel: Fusion teması daha modern görünür)
     app.setStyle("Fusion")
     
-    window = MainWindow()
-    window.show()
+    # Device Selection
+    from ui.device_selection import DeviceSelectionDialog
+    selection_dialog = DeviceSelectionDialog()
     
-    sys.exit(app.exec())
+    if selection_dialog.exec():
+        mode = selection_dialog.selected_mode
+        
+        if mode == 'android':
+            window = MainWindow()
+            window.show()
+            sys.exit(app.exec())
+            
+        elif mode == 'ios':
+            from receivers.ios_receiver import IosReceiver
+            from PyQt6.QtWidgets import QMessageBox
+            
+            receiver = IosReceiver()
+            try:
+                receiver.start()
+                
+                # Show a simple dialog while mirroring is active
+                msg = QMessageBox()
+                msg.setWindowTitle("MeCast - iOS Mirroring")
+                msg.setText("iOS Mirroring Başlatıldı.\n\nLütfen iOS cihazınızdan Ekran Yansıtma menüsünü açın ve 'MeCast'i seçin.\n\nDurdurmak için bu pencereyi kapatın veya Tamam'a basın.")
+                msg.setIcon(QMessageBox.Icon.Information)
+                msg.exec()
+                
+                receiver.stop()
+                
+            except FileNotFoundError:
+                QMessageBox.critical(None, "Hata", "uxplay bulunamadı.\nLütfen 'sudo apt install uxplay' (veya dağıtımınıza uygun komut) ile yükleyin.")
+            except Exception as e:
+                QMessageBox.critical(None, "Hata", f"Bir hata oluştu: {str(e)}")
+                
+    else:
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()

@@ -17,9 +17,16 @@ if ! command -v adb &> /dev/null; then
 fi
 
 if ! command -v scrcpy &> /dev/null; then
-    echo "Uyarı: 'scrcpy' bulunamadı. Ekran yansıtma için gereklidir."
+    echo "Uyarı: 'scrcpy' bulunamadı. Android ekran yansıtma için gereklidir."
     echo "Yüklemek için: sudo apt install scrcpy (Debian/Ubuntu) veya paket yöneticinizi kullanın."
     MISSING_TOOLS=1
+fi
+
+if ! command -v uxplay &> /dev/null; then
+    echo "Uyarı: 'uxplay' bulunamadı. iOS ekran yansıtma için gereklidir."
+    echo "Yüklemek için: sudo apt install uxplay (Debian/Ubuntu) veya paket yöneticinizi kullanın."
+    # uxplay opsiyonel olabilir, bu yüzden MISSING_TOOLS'u 1 yapmıyoruz veya kullanıcıya soruyoruz.
+    # Ancak tam deneyim için uyaralım.
 fi
 
 if [ $MISSING_TOOLS -eq 1 ]; then
