@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=MeCast
+Comment=Android Screen Mirroring Tool
+Exec=MeCast
+Icon=MeCast
+Categories=Utility;
+Terminal=false
