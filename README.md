@@ -1,52 +1,107 @@
 # MeCast
 
-MeCast, Android cihaz ekranınızı bilgisayarınıza yansıtmanızı ve kontrol etmenizi sağlayan, `scrcpy` tabanlı modern bir masaüstü uygulamasıdır.
+MeCast, Android ve iOS cihaz ekranınızı bilgisayarınıza yansıtmanızı sağlayan, modern bir masaüstü uygulamasıdır.
 
-## Özellikler
+## 🚀 Özellikler
 
-- **Kablosuz Bağlantı:** QR kod ile kolayca eşleştirme ve otomatik bağlanma.
-- **Kablolu Bağlantı:** USB üzerinden hızlı bağlantı.
-- **DeX Modu:** Sanal ikinci ekran oluşturarak masaüstü deneyimi (Android 10+).
-- **Ekran Kontrolü:** Fare ve klavye ile tam kontrol.
-- **Ekranı Kapatma:** Yansıtma sırasında telefon ekranını karartma seçeneği.
+### Android
+- **Kablosuz Bağlantı:** QR kod ile kolayca eşleştirme
+- **Kablolu Bağlantı:** USB üzerinden hızlı bağlantı
+- **DeX Modu:** Sanal ikinci ekran (Android 10+)
+- **Ekran Kontrolü:** Fare ve klavye ile tam kontrol
+- **Ekranı Kapatma:** Yansıtma sırasında telefon ekranını karartma
 
-## Gereksinimler
+### iOS (Yeni!)
+- **AirPlay Desteği:** iPhone/iPad ekranını yansıtma
+- **Otomatik Kurulum:** Firewall port yönetimi dahil
+- **Cross-Platform:** Linux ve Windows desteği
 
-- **Sistem:** Linux veya Windows
-- **Yazılım:** 
-    - `adb` (Android Debug Bridge)
-    - `scrcpy` (Ekran yansıtma için)
-    - Python 3.10+
+## 📋 Gereksinimler
 
-## Kurulum
+### Sistem
+- Linux veya Windows
+- Python 3.10+
 
-1. Repoyu klonlayın:
-   ```bash
-   git clone https://github.com/kullaniciadi/MeCast.git
-   cd MeCast
-   ```
+### Android için
+- `adb` (Android Debug Bridge)
+- `scrcpy`
 
-2. Sanal ortam oluşturun ve bağımlılıkları yükleyin:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+### iOS için
+| Platform | Gereksinimler |
+|----------|---------------|
+| Linux | `uxplay` |
+| Windows | [Bonjour](https://support.apple.com/kb/DL999) + [uxplay-windows](https://github.com/leapbtw/uxplay-windows/releases) |
 
-3. Uygulamayı çalıştırın:
-   ```bash
-   python main.py
-   ```
+## 📦 Kurulum
 
-## Derleme (Build)
-
-### Linux
+### Hızlı Başlangıç (Linux)
 ```bash
-pyinstaller --onefile --windowed --name MeCast --add-data "ui:ui" --add-data "utils:utils" --add-data "receivers:receivers" main.py
+git clone https://github.com/kullaniciadi/MeCast.git
+cd MeCast
+./install.sh
 ```
 
-### Windows
-Windows üzerinde `pyinstaller` kullanarak benzer komutla .exe oluşturabilirsiniz.
+### Manuel Kurulum
+```bash
+# Sanal ortam oluştur
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-## Lisans
+# Bağımlılıkları yükle
+pip install -r requirements.txt
+
+# Çalıştır
+python main.py
+```
+
+### Sistem Bağımlılıkları
+```bash
+# Debian/Ubuntu
+sudo apt install adb scrcpy uxplay
+
+# Fedora
+sudo dnf install android-tools scrcpy uxplay
+
+# Arch
+sudo pacman -S android-tools scrcpy uxplay
+```
+
+## 🏗️ Derleme
+
+### AppImage (Linux)
+```bash
+./build_appimage.sh
+# Çıktı: MeCast-x86_64.AppImage
+```
+
+### Windows EXE
+```bash
+pyinstaller build_windows.spec
+```
+
+## 🎯 Kullanım
+
+1. Uygulamayı başlatın
+2. **Android** veya **iOS** seçin
+3. Cihazınızı bağlayın:
+   - **Android:** QR kod ile eşleştirin veya USB bağlayın
+   - **iOS:** Ekran Yansıtma > MeCast
+
+## 📁 Proje Yapısı
+
+```
+MeCast/
+├── main.py              # Ana giriş noktası
+├── ui/                  # Kullanıcı arayüzü
+│   ├── main_window.py
+│   ├── device_selection.py
+│   └── ios_setup_dialog.py
+├── receivers/           # Yansıtma mantığı
+│   └── ios_receiver.py
+├── utils/               # Yardımcı araçlar
+│   └── system_utils.py  # Firewall yönetimi
+└── build_appimage.sh    # AppImage derleyici
+```
+
+## 📄 Lisans
 MIT
